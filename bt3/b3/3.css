@@ -1,0 +1,37 @@
+.box-3 {
+    width: 50%;
+    max-width: 3000px;
+    padding: 10px;
+    border: 2px solid brown;
+    background-color: #ddd;
+    text-align: center;
+    display: flex;
+}
+.box {
+    width: 100%;
+    max-width: 100px;
+    height: 100px;
+    color: white;
+    text-align: center;
+    line-height: 100px;
+    font-weight: bold;
+    margin-top: 20px;
+
+}
+.red-box {
+    background-color: red;
+}
+.blue-box {
+    background-color: blue;
+}
+.green-box {
+    background-color: green;
+}
+.img{
+    width: 400px;
+    margin-left: 20px;
+}
+.img:hover{
+    cursor: pointer;
+    opacity: 50%;
+}
