@@ -114,7 +114,7 @@
                         <article class="info__left">
                             <h2 class="heading">About me</h2>
                             <p class="sub-heading">I'm Nguyễn Đức Thắng</p>
-                            <p class="text">Đam Mê Với Tiền Bạc</p>
+                            <p class="text">Tôi có đam mê với công nghệ, thiết kế, lập trình, đặc biệt là tiền bạc và tôi luôn không ngừng học hỏi để cải thiện kỹ năng của mình. Tôi mong muốn được kết nối với nhiều người có cùng đam mê và học hỏi thêm từ những trải nghiệm mới.</p>
                             <div class="info--media">
                                 <a href="https://www.facebook.com/arrogant2k5/" target="_blank" rel="noopener noreferrer" class="btn-blue">Facebook</a>
                                 <a href="https://www.instagram.com/nguyenduc4983/" target="_blank" rel="noopener noreferrer" class="btn-2">Instagram</a>
@@ -183,7 +183,7 @@
                         <article class="education__content">
                             <h2 class="heading">Education</h2>
                             <!-- <p class="sub-heading">University: University of transport and communications</p> -->
-                            <p class="sub-heading strong-blue">Nhìn gì nữa out đi</p>
+                            <p class="sub-heading strong-blue">Đọc đến đây out được rồi</p>
                         </article>
                     </div>
                 </div>
@@ -198,6 +198,19 @@
     <script src="./main.js"></script>
     <script>
         AOS.init();
+        document.addEventListener('contextmenu', function(event) { // Click chuột phải
+    event.preventDefault();     
+});
+window.addEventListener('keydown', function(event) {
+    if (event.keyCode === 123 ||
+        event.keyCode === 85 ||
+        event.keyCode === 73 ||
+        event.keyCode === 74 ||
+        event.keyCode === 67) 
+    { // F12 U I J C
+        event.preventDefault();
+    }
+});
     </script>
 </body>
 </html>
