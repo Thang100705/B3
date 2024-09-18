@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Design</title>
+    <style>
+        body{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.grid {
+  display: grid;
+  /* W(adjusted) = W(individual) - (1rem * 1/2) */
+  grid-template-columns: calc(50% - (30px * 1/2)) calc(50% - (30px * 1/2));
+  grid-column-gap: 10px;
+}
+.col {
+  font-size: 30px;
+  padding: 30px;
+  background-color: rgb(252, 240, 252);
+  color: #000000;
+  border-radius:5% 5% 5% 5%;
+  text-align: center;
+}
+#button{
+  background-color: rgb(78, 78, 248);
+  color: white;
+  border-radius:50px;
+  padding: 15px 32px;
+  width:40%;
+  height: 15%;
+  text-align: center;  
+  text-decoration: none;  
+  display: inline-block;
+ 
+}
+.container {
+  box-sizing: border-box;
+  background-color: #ffffff;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+  font-weight: 475;
+}
+.inside {
+  display: flex; 
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 10px;
+ 
+}
+.content {
+  border-radius:5% 5% 5% 5%;
+  background-color: rgb(252, 240, 252);
+  color: black;
+  width: 60%;
+  padding: 10px;
+}
+.content img {
+  width: 100%;
+  height: auto;
+  border-radius:5% 5% 5% 5%
+}
+
+    </style>
+</head>
+<body>
+    <div class="grid">
+        <div class="col">
+            <h1>Material Design</h1>
+            <p>Material 3 is the latest version of Google’s open-source design system. Design and build beautiful, usable products with Material 3.</p>
+            <p id="button">Get started</p>
+        </div>
+        <div class="col">
+            <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2023/12/hinh-nen-vu-tru-72.jpg" style ="max-width: 100%;border-radius:5% 5% 5% 5%; height:auto; ">
+        </div>
+    </div>
+    <div class="container">
+    <h1>News & launches</h1>
+    <div class="inside">
+        <div class="content">
+            <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2023/12/hinh-nen-vu-tru-72.jpg">
+            <h3>Material Design at Google I/0</h3>
+            <P>See the full list of Material talks and tutorials launching at I/0 2024</P>
+        </div>
+        <div class="content">
+          <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2023/12/hinh-nen-vu-tru-72.jpg">
+          <h3>How to get Google Fonts</h3>
+            <p>New API updates and website </p>
+        </div>
+        <div class="content">
+          <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2023/12/hinh-nen-vu-tru-72.jpg">
+          <h3>Figma design kit</h3>
+            <p>Start designing and prototyping with the complete M3 library of ready-made components</p>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Design systems updates</h1>
+        <div class="inside">
+            <div class="content">
+              <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2023/12/hinh-nen-vu-tru-72.jpg">
+              <h3>Content design</h3>
+                <p>Guidance and best practices for UX writing and information design</p>
+            </div>
+            <div class="content">
+              <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2023/12/hinh-nen-vu-tru-72.jpg">
+              <h3>New component: Carousel</h3>
+                <p>An expressive new way to display a horizontally scrolling collection of content</p>
+            </div>
+            <div class="content">
+              <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2023/12/hinh-nen-vu-tru-72.jpg">
+              <h3>M3 for Jetpack Compose</h3>
+                <p>With the latest stable release, use Jetpack Compose to build a complete M3 Android app</p>
+            </div>
+        </div>
+            <div class="inside">
+                <div class="content">
+                  <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2023/12/hinh-nen-vu-tru-72.jpg">
+                  <h3>Material Theme Builder</h3>
+                    <P>Easily migrate or get started with the M3 color system and dynamic color</P>
+                </div>
+                <div class="content">
+                  <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2023/12/hinh-nen-vu-tru-72.jpg">
+                  <h3>How the color system works</h3>
+                    <p>From color roles and accessible tone pairs to dynamic color, learn how color works in Material</p>
+                </div>
+                <div class="content">
+                  <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2023/12/hinh-nen-vu-tru-72.jpg">
+                  <h3>Using Material icons</h3>
+                    <p>Learn how to use and customize the latest system icons for your UI</p>
+                </div>
+            </div>
+    <div class="container">
+        <h1>Resources</h1>
+        <div class="inside">
+            <div class="content">
+                <h3>Material blog</h3>
+                <p>News, tutorials, and inspiration from the Material team</p>
+            </div>
+            <div class="content">
+                <h3>Figma design kit</h3>
+                <p>Customizable styles and components to help you design with Material 3</p>
+            </div>
+            <div class="content">
+                <h3>Get started</h3>
+                <p>Guides, videos, and tools to start building with Material</p>
+            </div>
+            <div class="content">
+                <h3>Develop</h3>
+                <p>Code and developr documentation for building with Material</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+  document.addEventListener("keydown", function (event) {
+  if (event.key === "F12") {
+      event.preventDefault();
+  }
+});
+
+document.addEventListener("contextmenu", function (event) {
+  event.preventDefault();
+});
+
+
+</script>
+</html>
