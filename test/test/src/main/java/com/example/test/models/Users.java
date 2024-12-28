@@ -1,13 +1,15 @@
 package com.example.test.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.management.relation.Role;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,25 +19,27 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="users")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "user_id")  // Thêm ID generator
+
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long user_id;
+
     private String fullname;
     private String username;
     private String password;
     private String email;
-    private LocalDateTime created_at;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ")
+    private LocalDate created_at;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE,
-                    CascadeType.REFRESH, CascadeType.PERSIST})
-    @JsonIgnore
-    private List<Posts> post;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE,
-                    CascadeType.REFRESH, CascadeType.PERSIST})
-    @JsonIgnore
-    private List<Comments> comment;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING) // Lưu dưới dạng chuỗi trong DB
+    private Role role ; // Thêm thuộc tính role
+
+    public enum Role {
+        USER, ADMIN
+    }
 
 }

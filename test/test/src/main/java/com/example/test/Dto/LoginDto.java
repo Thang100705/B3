@@ -8,9 +8,11 @@ import lombok.Setter;
 public class LoginDto {
     private String username;
     private String password;
+    private String role; // Có thể null nếu không truyền
 
-    public LoginDto(String username, String password) {
+    public LoginDto(String username, String password,String role) {
         this.username = username;
         this.password = password;
+        this.role=role;
     }
 }

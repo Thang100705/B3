@@ -1,6 +1,7 @@
 package com.example.test.controller;
 
 import com.example.test.models.Comments;
+import com.example.test.models.Users;
 import com.example.test.services.CommentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+//@CrossOrigin(origins = { "*" })
+@CrossOrigin(origins = "http://localhost:3001") // Cho phép frontend truy cập
 @RequestMapping("/api")
 public class CommentController {
     private CommentService commentService;
@@ -24,19 +27,29 @@ public class CommentController {
     public List<Comments> showComment() {
         return commentService.getAll();
     }
-    @PostMapping
-    public ResponseEntity<Comments>createComment(@Valid @PathVariable Comments comments){
+
+    @GetMapping("/comment/{id}")
+    public ResponseEntity<Comments>CommentById( @PathVariable(required = false) Long id) {
+        Optional<Comments>comments=commentService.getByIdComment(id);
+        if(comments.isPresent()){
+            return new ResponseEntity<>(comments.get(),HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PostMapping("/comment")
+    public ResponseEntity<Comments>createComment(@Valid @RequestBody Comments comment){
         try {
-            Comments create = commentService.Create(comments);
+            Comments create = commentService.Create(comment);
             return new ResponseEntity<>(create, HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR)).build();
         }
     }
-    @PutMapping("/comment")
-    public ResponseEntity<Comments>UpdateComment(@Valid @RequestBody Comments comments) {
+    @PutMapping("/comment/{id}")
+    public ResponseEntity<Comments>UpdateUsers(@Valid @PathVariable Long id, @RequestBody Comments comments) {
         try {
-            Comments update = commentService.Create(comments);
+            Comments update = commentService.update(id,comments);
             return ResponseEntity.ok(update);
         } catch (Exception e) {
             return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR)).build();
@@ -44,13 +57,35 @@ public class CommentController {
     }
     @DeleteMapping("/comment/{id}")
     public ResponseEntity<Void>deleteCommentId(@PathVariable Long id){
-        Optional<Comments> category = commentService.getByIdComment(id);
-        if (category.isPresent()) {
+        Optional<Comments> comment = commentService.getByIdComment(id);
+        if (comment.isPresent()) {
             commentService.deleteCommentId(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("posts/{postId}/comments")
+    public ResponseEntity<List<Comments>> getCommentsByPostId(@PathVariable("postId") Long postId) {
+        List<Comments> comments = commentService.getCommentByPost_id(postId);
+        if (comments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(comments);
+    }
+
+    @GetMapping("comment/user/{id}")
+    public  ResponseEntity<List<Comments>>getCommentByUserId(@PathVariable Long id){
+        List<Comments>comments=commentService.getCommentByUserId(id);
+        if (comments == null || comments.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(comments);
+    }
+
+
+
+
 
 }

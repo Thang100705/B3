@@ -1,13 +1,16 @@
 package com.example.test.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -20,35 +23,50 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "posts")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "post_id")  // Thêm ID generator
 public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
     private Long post_id;
+
     private String title;
+
+    @Lob // @Lob cho phép lưu trữ văn bản dài
     private String content;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
 
-    //many
-    @ManyToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonManagedReference
-    private Users user;
+    //Nếu bạn muốn cho phép một số định dạng ngày tháng tùy chỉnh, bạn có thể sử dụng annotation
+    // @DateTimeFormat trong Spring Boot để chỉ định định dạng cho LocalDate.
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate created_at;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "category_id", nullable = false)
-    @JsonManagedReference
-    private Categories category;
-    //one
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate updated_at;
 
-    @OneToMany( mappedBy = "post", fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE,
-                    CascadeType.REFRESH, CascadeType.PERSIST})
-    @JsonIgnore
-    private List<Comments> comment;
+    @Column(name = "user_id")
+    private Long userId;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private PostStatus status; // Trạng thái của bài viết (pending, approved, rejected)
+
+
+    public enum PostStatus {
+        Pending,Approved
+    }
+
+    @PrePersist
+    public void setDefaultStatus() {
+        if (this.status == null) {
+            this.status = PostStatus.Pending;
+        }
+    }
+
+
+
+
+//
+//    private Categories category;
 
 
 

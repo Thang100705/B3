@@ -3,33 +3,25 @@ package com.example.test.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-@EnableWebSecurity
 public class Security {
 
     private  final CustomUserDetailsService customUserDetailsService;
     @Autowired
     public Security(CustomUserDetailsService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 //    @Bean
 //    public UserDetailsService userDetailsService() {
@@ -41,6 +33,11 @@ public class Security {
 //        return new InMemoryUserDetailsManager(admin);
 //    }
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+//
+    @Bean
     public AuthenticationManager authenticationManager
             (AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -48,20 +45,40 @@ public class Security {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
+                .cors(Customizer.withDefaults()) // Tích hợp CORS với Spring Security
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(HttpMethod.POST, "/api/register", "/api/login", "/api/posts").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/posts").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/posts/{id}", "/api/user/{id}", "/api/category/{id}").hasRole("Admin")
-                        .requestMatchers(HttpMethod.GET, "/api/user", "/api/category", "/api/category/{id}", "/api/comment", "/api/Posts").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/category", "/api/comment").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/comment/{id}").permitAll()
-                        .anyRequest().authenticated()
+//                                .requestMatchers("/admin/**").hasRole("ADMIN") // Chỉ ADMIN được phép truy cập
+                                .anyRequest().permitAll()
                 )
-                .httpBasic(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable())
-                .userDetailsService(customUserDetailsService);
+//                .formLogin(form -> form
+//                        .loginPage("/admin/user")
+////                        .permitAll()
+//
+//                )
+
+                .httpBasic(Customizer.withDefaults()) // Nếu bạn muốn sử dụng HTTP Basic Authentication, nếu không có thể bỏ qua
+                .csrf(csrf -> csrf.disable()) // Tắt CSRF vì đây là API REST
+                .userDetailsService(customUserDetailsService); // Sử dụng customUserDetailsService để load thông tin người dùng từ DB
 
         return http.build();
     }
+    @Bean
+    public CorsFilter corsFilter() {
+        return new CorsFilter(corsConfigurationSource());
+    }
+
+    private UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:3001"); // Địa chỉ Frontend
+        config.addAllowedMethod("*"); // Cho phép tất cả các phương thức HTTP
+        config.addAllowedHeader("*"); // Cho phép tất cả các header
+        config.setAllowCredentials(true); // Cho phép gửi thông tin xác thực (cookies, token)
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
 }
