@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,6 +42,7 @@ public class ImageService {
         image.setFileType(fileType);
         image.setFilePath(filePath.toString()); // Lưu đường dẫn tệp vào cơ sở dữ liệu
         image.setPostId(postId); // Liên kết với bài viết thông qua postId
+        image.setImageData(Files.readAllBytes(filePath));
 
         // Lưu ảnh vào cơ sở dữ liệu
         return imagesRepository.save(image);
@@ -50,7 +52,29 @@ public class ImageService {
 //    public Optional<Images> getImageById(Long id) {
 //        return imagesRepository.findById(id);
 //    }
-    public Optional<Images>getImageById(Long id){
-        return imagesRepository.findById(id);
+//    public Optional<Images>getImageById(Long id){
+//        return imagesRepository.findById(id);
+//    }
+
+    public Optional<Images> getImageById(Long id) {
+        Optional<Images> imageOpt = imagesRepository.findById(id);
+        if (imageOpt.isPresent()) {
+            return imageOpt;
+        } else {
+            return Optional.empty();
+        }
+    }
+
+
+    public Optional<Images> getImageByPostId(Long id){
+        Optional<Images> imagePostOpt = imagesRepository.findByPostId(id);
+        if (imagePostOpt.isPresent()) {
+            return imagePostOpt;
+        } else {
+            return Optional.empty();
+        }
+    }
+    public void deleteImageByPostId(Long postId) {
+        imagesRepository.deleteByPostId(postId);
     }
 }

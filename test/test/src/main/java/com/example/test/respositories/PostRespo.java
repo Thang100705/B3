@@ -16,6 +16,9 @@ public interface PostRespo extends JpaRepository<Posts, Long> {
     //dung de duyet bai viet
     List<Posts>findByStatus(Posts.PostStatus status);
 
+
+    List<Posts> findByCategoryIdAndStatus(Long categoryId, Posts.PostStatus status);
+
     List<Posts>findByUserId(Long UserId);
 
 //    List<Posts>findTileByPostId(Long PostId);

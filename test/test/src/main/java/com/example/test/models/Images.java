@@ -31,7 +31,7 @@ public class Images {
     private Long postId;
 
     @Lob
-    @Column(name = "image_data")
+    @Column(name = "image_data",length = 5000000)
     private byte[] imageData;
 
 

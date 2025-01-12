@@ -52,7 +52,7 @@ public class PostService {
     }
 
 
-    //ửa bài viết
+    //sửa bài viết
     public Posts update(Long id,Posts post){
         return postRespo.findById(id).map(postUpdate -> {
             postUpdate.setTitle(post.getTitle());
@@ -82,6 +82,11 @@ public class PostService {
     @Transactional
     public List<Posts>searchPostByTile(String title){
         return postRespo.findByTitleContainingIgnoreCase(title);
+    }
+
+
+    public List<Posts>findPostByCategoryId(Long categoryId){
+        return postRespo.findByCategoryIdAndStatus(categoryId,Posts.PostStatus.Approved);
     }
 
 //    public Optional<Posts>getPostByTitle(String postName){

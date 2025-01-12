@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,6 +47,9 @@ public class Posts {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "category_id")
+    private Long categoryId;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private PostStatus status; // Trạng thái của bài viết (pending, approved, rejected)
@@ -63,10 +67,6 @@ public class Posts {
     }
 
 
-
-
-//
-//    private Categories category;
 
 
 

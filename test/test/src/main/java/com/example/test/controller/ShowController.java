@@ -35,22 +35,22 @@ public class ShowController {
     @GetMapping("/users")
     public ResponseEntity<Users> getUseByUserName(@RequestParam String username) {
         Optional<Users> user = userService.getUserByUsername(username);
-        if (user.isPresent()) {
+//        if (user.isPresent()) {
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
 
     }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<Users> getUseByUserName( @PathVariable(required = false) Long id) {
         Optional<Users> users = userService.getUserId(id);
-        if (users.isPresent()) {
+//        if (users.isPresent()) {
             return new ResponseEntity<>(users.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
 
     }
     @PutMapping("/users/{id}")

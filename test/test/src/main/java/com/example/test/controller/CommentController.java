@@ -31,11 +31,11 @@ public class CommentController {
     @GetMapping("/comment/{id}")
     public ResponseEntity<Comments>CommentById( @PathVariable(required = false) Long id) {
         Optional<Comments>comments=commentService.getByIdComment(id);
-        if(comments.isPresent()){
+//        if(comments.isPresent()){
             return new ResponseEntity<>(comments.get(),HttpStatus.OK);
-        }else{
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+//        }else{
+//            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
     }
     @PostMapping("/comment")
     public ResponseEntity<Comments>createComment(@Valid @RequestBody Comments comment){
@@ -69,19 +69,19 @@ public class CommentController {
     @GetMapping("posts/{postId}/comments")
     public ResponseEntity<List<Comments>> getCommentsByPostId(@PathVariable("postId") Long postId) {
         List<Comments> comments = commentService.getCommentByPost_id(postId);
-        if (comments.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(comments);
+//        if (comments.isEmpty()) {
+//            return ResponseEntity.noContent().build();
+//        }
+        return new ResponseEntity<>(comments,HttpStatus.OK);
     }
 
     @GetMapping("comment/user/{id}")
     public  ResponseEntity<List<Comments>>getCommentByUserId(@PathVariable Long id){
         List<Comments>comments=commentService.getCommentByUserId(id);
-        if (comments == null || comments.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        return ResponseEntity.ok(comments);
+//        if (comments == null || comments.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//        }
+        return new ResponseEntity<>(comments,HttpStatus.OK);
     }
 
 
